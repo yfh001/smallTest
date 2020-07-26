@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.TransaticonDao" >
+
+    <sql id="BASE_COLUMN">
+        transactionId,tradeId,version,securityCode,quantity,operType,tadeType
+    </sql>
+
+    <insert id="doinsert" parameterType="com.example.demo.pojo.Transactions">
+       insert into transactions
+       <trim prefix="VALUES(" suffix=")" >
+           null,#{tradeId, jdbcType=BIGINT},
+           <choose>
+               <when test="operType=='INSERT'"> 1, </when>
+               <otherwise>2,</otherwise>
+           </choose>
+           #{securityCode, jdbcType=VARCHAR},
+           #{quantity, jdbcType=BIGINT},#{operType, jdbcType=VARCHAR},#{tadeType, jdbcType=VARCHAR}
+       </trim>
+    </insert>
+
+    <select id="doSelectDesc" parameterType="com.example.demo.pojo.Transactions" resultType="com.example.demo.pojo.Transactions">
+        select <include refid="BASE_COLUMN"/> from transactions
+        where tradeId=#{tradeId} order by transactionId desc limit 1
+    </select>
+
+    <select id="doSelectAsc" parameterType="com.example.demo.pojo.Transactions" resultType="com.example.demo.pojo.Transactions">
+        select <include refid="BASE_COLUMN"/> from transactions
+        where tradeId=#{tradeId} order by transactionId asc limit 1
+    </select>
+
+</mapper>
