@@ -1,3 +1,25 @@
 1: mvn clean package
 2: mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package org.jacoco:jacoco-maven-plugin:report sonar:sonar
 3: 用浏览器打开 target\site\jacoco\index.html 文件直接查看报告
+
+4：执行不成功添加如下配置，配置本地 maven 配置文件 conf/settings.xml
+ <pluginGroups>
+	<!-- SonarQube 插件 -->
+	<pluginGroup>org.sonarsource.scanner.maven</pluginGroup>
+  </pluginGroups>
+
+  <profiles>
+	<!-- SonarQube 插件 -->
+	<profile>
+		<id>sonar</id>
+		<activation>
+			<activeByDefault>true</activeByDefault>
+		</activation>
+		<properties>
+			<!-- Optional URL to server. Default value is http://localhost:9000 -->
+			<sonar.host.url>
+			  http://192.168.10.88:9000
+			</sonar.host.url>
+		</properties>
+	</profile>
+  </profiles>
